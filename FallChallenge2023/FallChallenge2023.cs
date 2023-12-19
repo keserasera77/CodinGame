@@ -5,6 +5,44 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
+/*　ドメイン層　*/
+
+// 出力アクションの定義
+interface IAction
+{
+    string format();
+}
+
+class MoveAction : IAction
+{
+    int x, y, light;
+    public MoveAction(int x, int y, int light)
+    {
+        x = x;
+        y = y;
+        light = light;
+    }
+
+	string format()
+	{
+		return $"MOVE {x} {y} {light}"
+	}
+}
+
+class WaitAction : IAction
+{
+    int light;
+    public WaitAction(int light)
+    {
+        light = light;
+    }
+
+	string format()
+	{
+		return $"WAIT {light}"
+	}
+}
+
 /**
  * Score points by scanning valuable fish faster than your opponent.
  **/
