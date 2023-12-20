@@ -10,6 +10,7 @@ using System.Collections.Generic;
 // 出力アクションの定義
 interface IAction
 {
+    string action;
     string format();
 }
 
@@ -41,6 +42,12 @@ class WaitAction : IAction
 	{
 		return $"WAIT {light}"
 	}
+}
+
+// 魚クラス
+class Fish
+{
+    int x, y;
 }
 
 /**
@@ -130,5 +137,34 @@ class Player
 
             }
         }
+    }
+}
+
+/* 共通ライブラリ */
+class Grid<Cell>
+{
+    int width, height;
+    List<Cell> list;
+
+    public Grid(int w, int h)
+    {
+        width = w;
+        height = h;
+        list = new List<Cell>(height * width);
+    }
+
+    Cell Get(int x, int y)
+    {
+        return list[x][y];
+    }
+
+    void Set(int x, int y, Cell c)
+    {
+        list[x][y] = c;
+    }
+
+    bool isInGrid(int x, int y)
+    {
+        return 0 <= x && x < width && 0 <= y < height;
     }
 }
