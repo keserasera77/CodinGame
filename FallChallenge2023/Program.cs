@@ -1,16 +1,15 @@
-using System;
+ï»¿using System;
 using System.Linq;
 using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
-/*@ƒhƒƒCƒ“‘w@*/
+/*ã€€ãƒ‰ãƒ¡ã‚¤ãƒ³å±¤ã€€*/
 
-// o—ÍƒAƒNƒVƒ‡ƒ“‚Ì’è‹`
+// å‡ºåŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®šç¾©
 interface IAction
 {
-    string action;
     string format();
 }
 
@@ -19,15 +18,16 @@ class MoveAction : IAction
     int x, y, light;
     public MoveAction(int x, int y, int light)
     {
-        x = x;
-        y = y;
-        light = light;
+        this.x = x;
+        this.y = y;
+        this.light = light;
     }
 
-	string format()
-	{
-		return $"MOVE {x} {y} {light}"
-	}
+    public string format()
+    {
+        return $"MOVE {x} {y} {light}";
+
+    }
 }
 
 class WaitAction : IAction
@@ -35,19 +35,35 @@ class WaitAction : IAction
     int light;
     public WaitAction(int light)
     {
-        light = light;
+        this.light = light;
     }
 
-	string format()
-	{
-		return $"WAIT {light}"
-	}
+    public string format()
+    {
+        return $"WAIT {light}";
+    }
 }
 
-// ‹›ƒNƒ‰ƒX
+// é­šã‚¯ãƒ©ã‚¹
 class Fish
 {
     int x, y;
+}
+
+class Field
+{
+    int width, height;
+
+    public Field(int w, int h)
+    {
+        this.width = w;
+        height = h;
+    }
+
+    public bool isInGrid(Coordinate c)
+    {
+        return 0 <= c.x && c.x < width && 0 <= c.y && c.y < height;
+    }
 }
 
 /**
@@ -73,9 +89,11 @@ class Player
             int myScore = int.Parse(Console.ReadLine());
             int foeScore = int.Parse(Console.ReadLine());
             int myScanCount = int.Parse(Console.ReadLine());
+            var creatures = new HashSet<int>();
             for (int i = 0; i < myScanCount; i++)
             {
                 int creatureId = int.Parse(Console.ReadLine());
+                creatures.Add(creatureId);
             }
             int foeScanCount = int.Parse(Console.ReadLine());
             for (int i = 0; i < foeScanCount; i++)
@@ -110,6 +128,7 @@ class Player
                 int creatureId = int.Parse(inputs[1]);
             }
             int visibleCreatureCount = int.Parse(Console.ReadLine());
+            int x = 5000, y = 5000;
             for (int i = 0; i < visibleCreatureCount; i++)
             {
                 inputs = Console.ReadLine().Split(' ');
@@ -118,6 +137,12 @@ class Player
                 int creatureY = int.Parse(inputs[2]);
                 int creatureVx = int.Parse(inputs[3]);
                 int creatureVy = int.Parse(inputs[4]);
+                if (!creatures.Contains(creatureId))
+                {
+                    x = creatureX + creatureVx;
+                    y = creatureY + creatureVy;
+                }
+
             }
             int radarBlipCount = int.Parse(Console.ReadLine());
             for (int i = 0; i < radarBlipCount; i++)
@@ -128,43 +153,30 @@ class Player
                 string radar = inputs[2];
             }
             for (int i = 0; i < myDroneCount; i++)
-            {
+
 
                 // Write an action using Console.WriteLine()
                 // To debug: Console.Error.WriteLine("Debug messages...");
 
-                Console.WriteLine("WAIT 1"); // MOVE <x> <y> <light (1|0)> | WAIT <light (1|0)>
-
-            }
+                Console.WriteLine($"Move {x} {y} 1 sss"); // MOVE <x> <y> <light (1|0)> | WAIT <light (1|0)>
         }
     }
 }
 
-/* ‹¤’Êƒ‰ƒCƒuƒ‰ƒŠ */
-class Grid<Cell>
+/* å…±é€šãƒ©ã‚¤ãƒ–ãƒ©ãƒª */
+class Coordinate
 {
-    int width, height;
-    List<Cell> list;
-
-    public Grid(int w, int h)
+    public int x { get; }
+    public int y { get; }
+    public Coordinate(int x, int y)
     {
-        width = w;
-        height = h;
-        list = new List<Cell>(height * width);
+        this.x = x;
+        this.y = y;
     }
 
-    Cell Get(int x, int y)
+    public int Dist(Coordinate c)
     {
-        return list[x][y];
-    }
-
-    void Set(int x, int y, Cell c)
-    {
-        list[x][y] = c;
-    }
-
-    bool isInGrid(int x, int y)
-    {
-        return 0 <= x && x < width && 0 <= y < height;
+        return (int)Math.Floor(Math.Sqrt((c.x - x) * (c.x - x) + (c.y - y) * (c.y - y)));
     }
 }
+
