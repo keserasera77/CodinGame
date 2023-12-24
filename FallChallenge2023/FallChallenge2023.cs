@@ -1,13 +1,13 @@
-ï»¿using System;
+using System;
 using System.Linq;
 using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
-/*ã€€ãƒ‰ãƒ¡ã‚¤ãƒ³å±¤ã€€*/
+/*@ƒhƒƒCƒ“‘w@*/
 
-// å‡ºåŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®šç¾©
+// o—ÍƒAƒNƒVƒ‡ƒ“‚Ì’è‹`
 interface IAction
 {
     string format();
@@ -44,7 +44,7 @@ class WaitAction : IAction
     }
 }
 
-// é­šã‚¯ãƒ©ã‚¹
+// ‹›ƒNƒ‰ƒX
 class Fish
 {
     int x, y;
@@ -163,7 +163,7 @@ class Player
     }
 }
 
-/* å…±é€šãƒ©ã‚¤ãƒ–ãƒ©ãƒª */
+/* ‹¤’Êƒ‰ƒCƒuƒ‰ƒŠ */
 class Coordinate
 {
     public int x { get; }
