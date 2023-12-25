@@ -4,9 +4,11 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Reflection.Emit;
+using System.Diagnostics;
 
 /*　ドメイン層　*/
-
 // 出力アクションの定義
 interface IAction
 {
@@ -45,9 +47,118 @@ class WaitAction : IAction
 }
 
 // 魚クラス
-class Fish
+class FishFactory
 {
+    List<int> colors;
+    List<int> types;
+    public FishFactory(int size)
+    {
+        colors = new List<int>(size);
+        types = new List<int>(size);
+    }
+    public void Add(int id, int color, int type)
+    {
+        Debug.Assert(id < colors.Count && id < types.Count);
+        colors[id] = color;
+        types[id] = type;
+    }
+    public IFish GenerateFish(int id, int x, int y)
+    {
+        int c = colors[id];
+        int t = types[id];
+
+        switch (t)
+        {
+            case 0:
+                return new ShallowFish(c, x, y);
+            case 1:
+                return new MiddleFish(c, x, y);
+            case 2:
+                return new DeepFish(c, x, y);
+
+        }
+    }
+}
+
+interface IFish
+{ 
+    int type { get; }
+    const int velocity = 200;
+    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
+    const int territory = 600;
+}
+
+class ShallowFish : IFish
+{
+    int IFish.type => 0;
+    const int velocity = 200;
+    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
+    const int territory = 600;
+
+    int color;
+
     int x, y;
+
+    public ShallowFish(int color, int x, int y)
+    {
+        this.color = color;
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class MiddleFish : IFish
+{
+    int IFish.type => 1;
+    const int velocity = 200;
+    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
+    const int territory = 600;
+
+    int color;
+
+    int x, y;
+
+    public MiddleFish(int color, int x, int y)
+    {
+        this.color = color;
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class DeepFish : IFish
+{
+    int IFish.type => 2;
+    const int velocity = 200;
+    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
+    const int territory = 600;
+
+    int color;
+
+    int x, y;
+
+    public DeepFish(int color, int x, int y)
+    {
+        this.color = color;
+        this.x = x;
+        this.y = y;
+    }
+}
+// end Fish
+
+// Drone
+class Drone
+{
+    // 1ターン当たりの移動速度
+    const int maxVelocity = 600;
+    // WAITで沈む速度
+    const int sinkVelocity = 300;
+    const int scanRadius = 800;
+    const int poweredScanRadius = 2000;
+
+    int battely { get; }
+    
+    Coordinate c { get; }
 }
 
 class Field
