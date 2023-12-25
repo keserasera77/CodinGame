@@ -182,6 +182,12 @@ class Field
     }
 }
 
+class Turn
+{
+    List<IFish> fishes;
+
+}
+
 /**
  * Score points by scanning valuable fish faster than your opponent.
  **/
@@ -191,12 +197,15 @@ class Main
     {
         string[] inputs;
         int creatureCount = int.Parse(Console.ReadLine());
+        var fishF = new FishFactory(creatureCount);
         for (int i = 0; i < creatureCount; i++)
         {
             inputs = Console.ReadLine().Split(' ');
             int creatureId = int.Parse(inputs[0]);
             int color = int.Parse(inputs[1]);
             int type = int.Parse(inputs[2]);
+
+            fishF.Add(creatureId, color, type);
         }
 
         // game loop
