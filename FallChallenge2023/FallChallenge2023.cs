@@ -180,7 +180,7 @@ class Field
 /**
  * Score points by scanning valuable fish faster than your opponent.
  **/
-class Player
+class Main
 {
     static void Main(string[] args)
     {
