@@ -155,6 +155,11 @@ class Drone
     const int sinkVelocity = 300;
     const int scanRadius = 800;
     const int poweredScanRadius = 2000;
+    // activateされていないときのバッテリーチャージ
+    const int battelyCharge = 1;
+    const int battelyCapacity = 30;
+    // activateされているときのバッテリー消費
+    const int battelyConsumption = 5;
 
     int battely { get; }
     
