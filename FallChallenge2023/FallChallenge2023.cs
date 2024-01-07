@@ -15,36 +15,6 @@ interface IAction
     string format();
 }
 
-class MoveAction : IAction
-{
-    int x, y, light;
-    public MoveAction(int x, int y, int light)
-    {
-        this.x = x;
-        this.y = y;
-        this.light = light;
-    }
-
-    public string format()
-    {
-        return $"MOVE {x} {y} {light}";
-
-    }
-}
-
-class WaitAction : IAction
-{
-    int light;
-    public WaitAction(int light)
-    {
-        this.light = light;
-    }
-
-    public string format()
-    {
-        return $"WAIT {light}";
-    }
-}
 
 // 魚クラス
 class FishFactory
@@ -75,7 +45,8 @@ class FishFactory
                 return new MiddleFish(c, x, y);
             case 2:
                 return new DeepFish(c, x, y);
-
+            default:
+                
         }
     }
 }
@@ -86,63 +57,6 @@ interface IFish
     const int velocity = 200;
     // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
     const int territory = 600;
-}
-
-class ShallowFish : IFish
-{
-    int IFish.type => 0;
-    const int velocity = 200;
-    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
-    const int territory = 600;
-
-    int color;
-
-    int x, y;
-
-    public ShallowFish(int color, int x, int y)
-    {
-        this.color = color;
-        this.x = x;
-        this.y = y;
-    }
-}
-
-class MiddleFish : IFish
-{
-    int IFish.type => 1;
-    const int velocity = 200;
-    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
-    const int territory = 600;
-
-    int color;
-
-    int x, y;
-
-    public MiddleFish(int color, int x, int y)
-    {
-        this.color = color;
-        this.x = x;
-        this.y = y;
-    }
-}
-
-class DeepFish : IFish
-{
-    int IFish.type => 2;
-    const int velocity = 200;
-    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
-    const int territory = 600;
-
-    int color;
-
-    int x, y;
-
-    public DeepFish(int color, int x, int y)
-    {
-        this.color = color;
-        this.x = x;
-        this.y = y;
-    }
 }
 // end Fish
 
@@ -380,3 +294,96 @@ class Coordinate
     }
 }
 
+/*ドメイン*/
+// action start
+
+class MoveAction : IAction
+{
+    int x, y, light;
+    public MoveAction(int x, int y, int light)
+    {
+        this.x = x;
+        this.y = y;
+        this.light = light;
+    }
+
+    public string format()
+    {
+        return $"MOVE {x} {y} {light}";
+
+    }
+}
+
+class WaitAction : IAction
+{
+    int light;
+    public WaitAction(int light)
+    {
+        this.light = light;
+    }
+
+    public string format()
+    {
+        return $"WAIT {light}";
+    }
+}
+// action end
+// fish start
+
+class ShallowFish : IFish
+{
+    int IFish.type => 0;
+    const int velocity = 200;
+    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
+    const int territory = 600;
+
+    int color;
+
+    int x, y;
+
+    public ShallowFish(int color, int x, int y)
+    {
+        this.color = color;
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class MiddleFish : IFish
+{
+    int IFish.type => 1;
+    const int velocity = 200;
+    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
+    const int territory = 600;
+
+    int color;
+
+    int x, y;
+
+    public MiddleFish(int color, int x, int y)
+    {
+        this.color = color;
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class DeepFish : IFish
+{
+    int IFish.type => 2;
+    const int velocity = 200;
+    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
+    const int territory = 600;
+
+    int color;
+
+    int x, y;
+
+    public DeepFish(int color, int x, int y)
+    {
+        this.color = color;
+        this.x = x;
+        this.y = y;
+    }
+}
+// fish end
