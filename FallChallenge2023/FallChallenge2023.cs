@@ -46,7 +46,7 @@ class FishFactory
             case 2:
                 return new DeepFish(c, x, y);
             default:
-                
+                throw new Exception($"fail to generate fish (id:{id}, x:{x}, y:{y})");
         }
     }
 }
