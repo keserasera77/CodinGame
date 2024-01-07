@@ -74,6 +74,10 @@ class Drone
     const int battelyCapacity = 30;
     // activateされているときのバッテリー消費
     const int battelyConsumption = 5;
+    // この範囲内にMosterがいるとEmergencyモードになる
+    const int emergencyRadius = 300;
+    // Emergencyモードの際の上昇速度
+    const int emergencyVelocity = 300;
 
     int battely { get; }
     
@@ -366,6 +370,24 @@ class MiddleFish : IFish
         this.x = x;
         this.y = y;
     }
+}
+
+class Monster: IFish
+{
+    int IFish.type => -1;
+    const int velocity = 270;
+    const int aggressiveVelocity = 540;
+    // territory内に別のFishがいる場合は一番近いFishと反対方向に進む
+    const int territory = 600;
+
+    int color;
+
+    int x, y;
+
+    /* モンスターの進行方向
+      y = 2500uにいる、またはマップの横の端にいる。
+      他のモンスターの600u以内にいる場合、最も近いモンスターの反対方向に進む。
+     */
 }
 
 class DeepFish : IFish
